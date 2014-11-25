@@ -11,6 +11,19 @@
 <script type="text/javascript">
 /* keypress 이벤트 */
 $(document).ready(function(){ 
+	var marr = ["1","1110.9","941.2","1381.85","1742.45","1148.81","983.88","950.6","867.06","143.23","149.16","185.74","163.26","296.1","3816.61","2946.53","302.45","33.84","852.24","9.23","100.72","24.54","4.51","329.17","497.74","6.13","50.1","305.05","0.59","17.94","331.36","10.94","14.37","24.71","180.66","155.37","81.23","436.38","852.05","35.93","287.87","1574.96","2885.38","1.86","5.2"];
+	var nat = ["KRW","USD","JPY","EUR","GBP","CHF","CAD","AUD","NZD","HKD","SEK","DKK","NOK","SAR","KWD","BHD","AED","THB","SGD","100","ZAR","RUB","HUF","PLN","TRY","KZT","CZK","QAR","MNT","INR","MYR","PKR","BDT","PHP","CNY","EGP","MXN","BRL","BND","TWD","ILS","JOD","OMR","CLP","VND"];
+	var nnm = ["대한민국","미국","일본","유럽연합","영국","스위스","캐나다","호주","뉴질랜드","홍콩","스웨덴","덴마크","노르웨이","사우디","쿠웨이트","바레인","아랍에미리트","태국","싱가포르","인도네시아IDR","남아공","러시아","헝가리","폴란드","터키","카자흐스탄","체코","카타르","몽골","인도","말레이시아","파키스탄","방글라데시","필리핀","중국","이집트","멕시코","브라질","브루나이","대만","이스라엘","요르단","오만","칠레","베트남"];
+	var unt = ["원" ,"달러" ,"엔" ,"유로" ,"파운드" ,"프랑" ,"달러" ,"파운드" ,"달러" ,"달러" ,"크로나" ,"크로네" ,"크로네" ,"리얄" ,"디나르" ,"디나르" ,"디르함" ,"달러" ,"동" ,"루피아" ,"랜드" ,"루블" ,"포린트" ,"즈워티" ,"리라" ,"텡게" ,"코루나" ,"리얄" ,"투그릭" ,"루피" ,"링깃" ,"루피" ,"타카" ,"페소" ,"위안" ,"파운드" ,"페소" ,"레알" ,"달러" ,"레알" ,"세켈" ,"디나르" ,"리알" ,"페소" ,"동"];
+	/* alert("환율수"+marr.length+"유닛명"+nat.length+"이름수:"+nnm.length); */
+	for(i=0; marr.length>i; i++){
+		if(nat[i]=="USD"){
+			$("#ecg_ifmt").append("<option value='"+marr[i]+"' data-unit='"+nat[i]+"' unit='"+unt[i]+"' selected='selected'>"+nnm[i]+"</option>");
+		}else{
+			$("#ecg_ifmt").append("<option value='"+marr[i]+"' data-unit='"+nat[i]+"' unit='"+unt[i]+"'>"+nnm[i]+"</option>");
+		}
+		$("#ecg_ifmt2").append("<option value='"+marr[i]+"' data-unit='"+nat[i]+"' unit='"+unt[i]+"'>"+nnm[i]+"</option>");
+	}
 	$('#num').keypress(function(event) {
         if(event.which && (event.which < 48 || event.which > 57) ) {
             event.preventDefault();
@@ -23,6 +36,7 @@ $(document).ready(function(){
             var tmp3 = ($("#ecg_ifmt option:selected").val().replace(/,/g, '')*tmps)/$("#ecg_ifmt2 option:selected").val().replace(/,/g, '');
             if(tmp3!='0'){
             	$("#num2").val(tmp3.toFixed(2).replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,"));
+            	rl();
             }else{
             	$("#num").val('');
             }
@@ -43,6 +57,7 @@ $(document).ready(function(){
             var tmp3 = ($("#ecg_ifmt2 option:selected").val().replace(/,/g, '')*tmps)/$("#ecg_ifmt option:selected").val().replace(/,/g, '');
             if(tmp3!='0'){
             	$("#num").val(tmp3.toFixed(2).replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,"));
+            	rl();
             }else{
             	$("#num2").val('');
             }
@@ -53,38 +68,55 @@ $(document).ready(function(){
     });
 	
 });
+function rl() {
+	var unt = $("#ecg_ifmt option:selected").attr("unit");
+  	$(".nb_txt._l_unit").html($("#num").val()+" "+unt);
+  	var unt = $("#ecg_ifmt2 option:selected").attr("unit");
+  	$(".nb_txt._r_unit").html($("#num2").val()+" "+unt);
+}
 </script>
 <script type="text/javascript">
 /* selected 이벤트 */
 function selc1(){
-		/* 국기 아이콘 변경 */
-		var otx = $(".nt_eng.l_unit").html();
-		var ttx = $("#ecg_ifmt option:selected").attr("data-unit").toLowerCase();
-		$(".flag.l").removeClass(otx);
-		$(".flag.l").addClass(ttx);
+		/* 국기,단위 변경 */
+	var otx = $(".nt_eng.l_unit").html();//국가코드
+	var ttx = $("#ecg_ifmt option:selected").attr("data-unit").toLowerCase();//선택된 소문자 국가코드(그림)
+	var unt = $("#ecg_ifmt option:selected").attr("unit");
+	if(otx.toLowerCase!=ttx){
+			$(".nt_eng.l_unit").html($("#ecg_ifmt option:selected").attr("data-unit"));//국가 변경
+			$(".flag.l").removeClass(otx.toLowerCase()); //국가그림에 국가코드 삭제
+			$(".flag.l").addClass(ttx); //국가그림에 국가코드 추가
+  	}
 		/* 환율 변경 */
-	   var tmps = $("#num2").val().replace(/,/g, '');
-	   var tmp3 = (($("#ecg_ifmt2 option:selected").val().replace(/,/g, '')*tmps)/$("#ecg_ifmt option:selected").val().replace(/,/g, ''));
-	   if(tmp3!='0'){
+    var tmps = $("#num2").val().replace(/,/g, '');
+    var tmp3 = (($("#ecg_ifmt2 option:selected").val().replace(/,/g, '')*tmps)/$("#ecg_ifmt option:selected").val().replace(/,/g, ''));
+    if(tmp3!='0'){
 		$("#num").val('');
 	   	$("#num").val(tmp3.toFixed(2).replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,"));
-	   }else{
+	   	$(".nb_txt._l_unit").html($("#num").val()+" "+unt);
+    }else{
 	   	$("#num2").val('0');
-	   }
+	   } 
 	}
 function selc2(){
-		/* 국기 아이콘 변경 */
-		var otx = $(".nt_eng.r_unit").html();
-		var ttx = $("#ecg_ifmt2 option:selected").attr("data-unit").toLowerCase();
-		$(".flag.r").removeClass(otx);
+	/* 국기,단위 변경 */
+	$(".nt_eng.r_unit").html($("#ecg_ifmt2 option:selected").attr("data-unit"));
+	var otx = $(".nt_eng.r_unit").html();
+	var ttx = $("#ecg_ifmt2 option:selected").attr("data-unit").toLowerCase();
+	var unt = $("#ecg_ifmt2 option:selected").attr("unit");
+	if(otx.toLowerCase!=ttx){
+		$(".nt_eng.r_unit").html($("#ecg_ifmt2 option:selected").attr("data-unit"));//국가 변경
+		$(".flag.r").removeClass(otx.toLowerCase());
 		$(".flag.r").addClass(ttx);
+	}
 		/* 환율변경 */
-	   var tmps = $("#num").val().replace(/,/g, '');
-	   var tmp3 = ($("#ecg_ifmt option:selected").val().replace(/,/g, '')*tmps)/$("#ecg_ifmt2 option:selected").val().replace(/,/g, '');
-	   if(tmp3!='0'){
+    var tmps = $("#num").val().replace(/,/g, '');
+    var tmp3 = ($("#ecg_ifmt option:selected").val().replace(/,/g, '')*tmps)/$("#ecg_ifmt2 option:selected").val().replace(/,/g, '');
+    if(tmp3!='0'){
 		$("#num2").val('');
 	   	$("#num2").val(tmp3.toFixed(2).replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,"));
-	   }else{
+	   	$(".nb_txt._r_unit").html($("#num2").val()+" "+unt);
+    }else{
 	   	$("#num").val('0');
 	   }
 	}
@@ -100,51 +132,6 @@ function selc2(){
 			<div class="slc_box">
 				<label for="ecg_ifmt" class="nc">환율을 계산할 국가를 선택</label>
 				<select class="nt_slc" id="ecg_ifmt" onchange="selc1()">
-					<option value="1" data-unit="KRW">대한민국</option>
-					<option value="1,110.90" data-unit="USD">미국</option>
-					<option value="9.4120" data-unit="JPY">일본</option>
-					<option value="1,381.85" data-unit="EUR">유럽연합</option>
-					<option value="180.66" data-unit="CNY">중국</option>
-					<option value="950.60" data-unit="AUD">호주</option>
-					<option value="983.88" data-unit="CAD">캐나다</option>
-					<option value="1,742.45" data-unit="GBP">영국</option>
-					<option value="24.71" data-unit="PHP">필리핀</option>
-					<option value="143.23" data-unit="HKD">홍콩</option>
-					<option value="867.06" data-unit="NZD">뉴질랜드</option>
-					<option value="33.84" data-unit="THB">태국</option>
-					<option value="852.24" data-unit="SGD">싱가포르</option>
-					<option value="17.94" data-unit="INR">인도</option>
-					<option value="436.38" data-unit="BRL">브라질</option>
-					<option value="35.93" data-unit="TWD">대만</option>
-					<option value="331.36" data-unit="MYR">말레이시아</option>
-					<option value="1,148.81" data-unit="CHF">스위스</option>
-					<option value="0.0520" data-unit="VND">베트남</option>
-					<option value="24.54" data-unit="RUB">러시아</option>
-					<option value="0.0923" data-unit="IDR">인도네시아</option>
-					<option value="14.37" data-unit="BDT">방글라데시</option>
-					<option value="149.16" data-unit="SEK">스웨덴</option>
-					<option value="163.26" data-unit="NOK">노르웨이</option>
-					<option value="100.72" data-unit="ZAR">남아프리카 공화국</option>
-					<option value="4.51" data-unit="HUF">헝가리</option>
-					<option value="81.23" data-unit="MXN">멕시코</option>
-					<option value="3,816.61" data-unit="KWD">쿠웨이트</option>
-					<option value="185.74" data-unit="DKK">덴마크</option>
-					<option value="155.37" data-unit="EGP">이집트</option>
-					<option value="329.17" data-unit="PLN">폴란드</option>
-					<option value="296.10" data-unit="SAR">사우디아라비아</option>
-					<option value="287.87" data-unit="ILS">이스라엘</option>
-					<option value="10.94" data-unit="PKR">파키스탄</option>
-					<option value="2,946.53" data-unit="BHD">바레인</option>
-					<option value="1,574.96" data-unit="JOD">요르단</option>
-					<option value="852.05" data-unit="BND">브루나이</option>
-					<option value="302.45" data-unit="AED">아랍에미리트</option>
-					<option value="0.59" data-unit="MNT">몽골</option>
-					<option value="6.13" data-unit="KZT">카자흐스탄</option>
-					<option value="497.74" data-unit="TRY">터키</option>
-					<option value="50.10" data-unit="CZK">체코</option>
-					<option value="305.05" data-unit="QAR">카타르</option>
-					<option value="1.86" data-unit="CLP">칠레</option>
-					<option value="2,885.38" data-unit="OMR">오만</option>
 				</select>
 				<span class="flag usd l"></span>
 				<span class="nt_eng l_unit">USD</span>
@@ -162,51 +149,6 @@ function selc2(){
 			<div class="slc_box">
 				<label for="ecg_ifmt2" class="nc">환율을 변환하는 국가를 선택</label>
 				<select class="nt_slc" id="ecg_ifmt2" onchange="selc2()">
-					<option value="1" data-unit="KRW">대한민국</option>
-					<option value="1,110.90" data-unit="USD">미국</option>
-					<option value="9.4120" data-unit="JPY">일본</option>
-					<option value="1,381.85" data-unit="EUR">유럽연합</option>
-					<option value="180.66" data-unit="CNY">중국</option>
-					<option value="950.60" data-unit="AUD">호주</option>
-					<option value="983.88" data-unit="CAD">캐나다</option>
-					<option value="1,742.45" data-unit="GBP">영국</option>
-					<option value="24.71" data-unit="PHP">필리핀</option>
-					<option value="143.23" data-unit="HKD">홍콩</option>
-					<option value="867.06" data-unit="NZD">뉴질랜드</option>
-					<option value="33.84" data-unit="THB">태국</option>
-					<option value="852.24" data-unit="SGD">싱가포르</option>
-					<option value="17.94" data-unit="INR">인도</option>
-					<option value="436.38" data-unit="BRL">브라질</option>
-					<option value="35.93" data-unit="TWD">대만</option>
-					<option value="331.36" data-unit="MYR">말레이시아</option>
-					<option value="1,148.81" data-unit="CHF">스위스</option>
-					<option value="0.0520" data-unit="VND">베트남</option>
-					<option value="24.54" data-unit="RUB">러시아</option>
-					<option value="0.0923" data-unit="IDR">인도네시아</option>
-					<option value="14.37" data-unit="BDT">방글라데시</option>
-					<option value="149.16" data-unit="SEK">스웨덴</option>
-					<option value="163.26" data-unit="NOK">노르웨이</option>
-					<option value="100.72" data-unit="ZAR">남아프리카 공화국</option>
-					<option value="4.51" data-unit="HUF">헝가리</option>
-					<option value="81.23" data-unit="MXN">멕시코</option>
-					<option value="3,816.61" data-unit="KWD">쿠웨이트</option>
-					<option value="185.74" data-unit="DKK">덴마크</option>
-					<option value="155.37" data-unit="EGP">이집트</option>
-					<option value="329.17" data-unit="PLN">폴란드</option>
-					<option value="296.10" data-unit="SAR">사우디아라비아</option>
-					<option value="287.87" data-unit="ILS">이스라엘</option>
-					<option value="10.94" data-unit="PKR">파키스탄</option>
-					<option value="2,946.53" data-unit="BHD">바레인</option>
-					<option value="1,574.96" data-unit="JOD">요르단</option>
-					<option value="852.05" data-unit="BND">브루나이</option>
-					<option value="302.45" data-unit="AED">아랍에미리트</option>
-					<option value="0.59" data-unit="MNT">몽골</option>
-					<option value="6.13" data-unit="KZT">카자흐스탄</option>
-					<option value="497.74" data-unit="TRY">터키</option>
-					<option value="50.10" data-unit="CZK">체코</option>
-					<option value="305.05" data-unit="QAR">카타르</option>
-					<option value="1.86" data-unit="CLP">칠레</option>
-					<option value="2,885.38" data-unit="OMR">오만</option>
 				</select>
 				<span class="flag krw r"></span>
 				<span class="nt_eng r_unit">KRW</span>
@@ -240,54 +182,53 @@ function selc2(){
 			</thead>
 			<tbody>
 	<tr class="dw">
-		<th scope="row"><a href="?sm=mtb_drt&amp;where=m&amp;query=%EB%AF%B8%EA%B5%AD%ED%99%98%EC%9C%A8" onclick="return goOtherCR(this, 'a=drt_exc.crtn&amp;r=1&amp;i=0000009d_00001574927e&amp;u='+urlencode(this.href));">미국 <em>USD </em></a></th>
+		<th scope="row">미국 <em>USD </em></th>
 		<td>1,110.90</td>
 		<td><span class="ico">하락</span>2.60</td>
 		<td>-0.23%</td>
 	</tr>
 
 	<tr class="dw">
-		<th scope="row"><a href="?sm=mtb_drt&amp;where=m&amp;query=%EC%9D%BC%EB%B3%B8%ED%99%98%EC%9C%A8" onclick="return goOtherCR(this, 'a=drt_exc.crtn&amp;r=1&amp;i=0000009d_00001574927e&amp;u='+urlencode(this.href));">일본 <em>JPY 100</em></a></th>
+		<th scope="row">일본 <em>JPY 100</em></th>
 		<td>941.20</td>
 		<td><span class="ico">하락</span>0.45</td>
 		<td>-0.05%</td>
 	</tr>
 
 	<tr class="up">
-		<th scope="row"><a href="?sm=mtb_drt&amp;where=m&amp;query=%EC%9C%A0%EB%9F%BD%EC%97%B0%ED%95%A9%ED%99%98%EC%9C%A8" onclick="return goOtherCR(this, 'a=drt_exc.crtn&amp;r=1&amp;i=0000009d_00001574927e&amp;u='+urlencode(this.href));">유럽연합 <em>EUR </em></a></th>
+		<th scope="row">유럽연합 <em>EUR </em></th>
 		<td>1,381.85</td>
 		<td><span class="ico">상승</span>3.89</td>
 		<td>0.28%</td>
 	</tr>
 
 	<tr class="dw">
-		<th scope="row"><a href="?sm=mtb_drt&amp;where=m&amp;query=%EC%A4%91%EA%B5%AD%ED%99%98%EC%9C%A8" onclick="return goOtherCR(this, 'a=drt_exc.crtn&amp;r=1&amp;i=0000009d_00001574927e&amp;u='+urlencode(this.href));">중국 <em>CNY </em></a></th>
+		<th scope="row">중국 <em>CNY </em></th>
 		<td>180.66</td>
 		<td><span class="ico">하락</span>0.44</td>
 		<td>-0.24%</td>
 	</tr>
 
 	<tr class="dw">
-		<th scope="row"><a href="?sm=mtb_drt&amp;where=m&amp;query=%ED%98%B8%EC%A3%BC%ED%99%98%EC%9C%A8" onclick="return goOtherCR(this, 'a=drt_exc.crtn&amp;r=1&amp;i=0000009d_00001574927e&amp;u='+urlencode(this.href));">호주 <em>AUD </em></a></th>
+		<th scope="row">호주 <em>AUD </em></th>
 		<td>950.60</td>
 		<td><span class="ico">하락</span>12.80</td>
 		<td>-1.33%</td>
 	</tr>
 
 	<tr class="dw">
-		<th scope="row"><a href="?sm=mtb_drt&amp;where=m&amp;query=%EC%BA%90%EB%82%98%EB%8B%A4%ED%99%98%EC%9C%A8" onclick="return goOtherCR(this, 'a=drt_exc.crtn&amp;r=1&amp;i=0000009d_00001574927e&amp;u='+urlencode(this.href));">캐나다 <em>CAD </em></a></th>
+		<th scope="row">캐나다 <em>CAD </em></th>
 		<td>983.88</td>
 		<td><span class="ico">하락</span>6.69</td>
 		<td>-0.68%</td>
 	</tr>
 
 	<tr class="dw">
-		<th scope="row"><a href="?sm=mtb_drt&amp;where=m&amp;query=%EB%89%B4%EC%A7%88%EB%9E%9C%EB%93%9C%ED%99%98%EC%9C%A8" onclick="return goOtherCR(this, 'a=drt_exc.crtn&amp;r=1&amp;i=0000009d_00001574927e&amp;u='+urlencode(this.href));">뉴질랜드 <em>NZD </em></a></th>
+		<th scope="row">뉴질랜드 <em>NZD </em></th>
 		<td>867.06</td>
 		<td><span class="ico">하락</span>9.82</td>
 		<td>-1.12%</td>
 	</tr>
-
 			</tbody>
 		</table>
 	</div>
