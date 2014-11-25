@@ -9,6 +9,7 @@
 <title>네이버 환율</title>
 <link rel="stylesheet" type="text/css" href="css/exchange.css">
 <script type="text/javascript">
+/* keypress 이벤트 */
 $(document).ready(function(){ 
 	$('#num').keypress(function(event) {
         if(event.which && (event.which < 48 || event.which > 57) ) {
@@ -30,11 +31,33 @@ $(document).ready(function(){
     	$("#num2").val('0')
     }
     });
+	$('#num2').keypress(function(event) {
+        if(event.which && (event.which < 48 || event.which > 57) ) {
+            event.preventDefault();
+        }
+    }).keyup(function(){
+        if( $(this).val() != null && $(this).val() != '' ) {
+            var tmps = $(this).val().replace(/[^0-9]/g, '');
+            var tmps2 = tmps.replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
+            $(this).val(tmps2);
+            var tmp3 = ($("#ecg_ifmt2 option:selected").val().replace(/,/g, '')*tmps)/$("#ecg_ifmt option:selected").val().replace(/,/g, '');
+            if(tmp3!='0'){
+            	$("#num").val(tmp3.toFixed(2).replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,"));
+            }else{
+            	$("#num2").val('');
+            }
+    }else{
+    	$("#num").val('0')
+    	$("#num2").val('0')
+    }
+    });
+	
 });
 </script>
 <script type="text/javascript">
+/* selected 이벤트 */
 function selc1(){
-	   var tmps = $("#num2").val().replace(/[^0-9]/g, '');
+	   var tmps = $("#num2").val().replace(/,/g, '');
 	   var tmp3 = (($("#ecg_ifmt2 option:selected").val().replace(/,/g, '')*tmps)/$("#ecg_ifmt option:selected").val().replace(/,/g, ''));
 	   if(tmp3!='0'){
 		$("#num").val('');
@@ -44,7 +67,7 @@ function selc1(){
 	   }
 	}
 function selc2(){
-	   var tmps = $("#num").val().replace(/[^0-9]/g, '');
+	   var tmps = $("#num").val().replace(/,/g, '');
 	   var tmp3 = ($("#ecg_ifmt option:selected").val().replace(/,/g, '')*tmps)/$("#ecg_ifmt2 option:selected").val().replace(/,/g, '');
 	   if(tmp3!='0'){
 		$("#num2").val('');
@@ -179,7 +202,7 @@ function selc2(){
 			</div>
 			<div class="num">
 				<label for="num2" class="nc">환율을 변환하는 국가를 선택</label>
-				<input id="num2" type="text" maxlength="" value="0" class="_before_cal">
+				<input id="num2" type="text" maxlength="" value="0" class="_before_cal"  onkeypress="e();" >
 				<div class="recite">
 					<span class="nb_txt _r_unit">0.00 원</span>
 				</div>
