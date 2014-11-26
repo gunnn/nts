@@ -155,7 +155,7 @@ function selc2(){
 			</div>
 			<div class="num">
 				<label for="num2" class="nc">환율을 변환하는 국가를 선택</label>
-				<input id="num2" type="text" maxlength="" value="0" class="_before_cal"  onkeypress="e();" >
+				<input id="num2" type="text" maxlength="" value="0" class="_before_cal" onclick="if($(this).val()=='0'){$(this).val('')}">
 				<div class="recite">
 					<span class="nb_txt _r_unit">0.00 원</span>
 				</div>
