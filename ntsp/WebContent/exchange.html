@@ -15,7 +15,7 @@ $(document).ready(function(){
 	var nat = ["KRW","USD","JPY","EUR","GBP","CHF","CAD","AUD","NZD","HKD","SEK","DKK","NOK","SAR","KWD","BHD","AED","THB","SGD","100","ZAR","RUB","HUF","PLN","TRY","KZT","CZK","QAR","MNT","INR","MYR","PKR","BDT","PHP","CNY","EGP","MXN","BRL","BND","TWD","ILS","JOD","OMR","CLP","VND"];
 	var nnm = ["대한민국","미국","일본","유럽연합","영국","스위스","캐나다","호주","뉴질랜드","홍콩","스웨덴","덴마크","노르웨이","사우디","쿠웨이트","바레인","아랍에미리트","태국","싱가포르","인도네시아IDR","남아공","러시아","헝가리","폴란드","터키","카자흐스탄","체코","카타르","몽골","인도","말레이시아","파키스탄","방글라데시","필리핀","중국","이집트","멕시코","브라질","브루나이","대만","이스라엘","요르단","오만","칠레","베트남"];
 	var unt = ["원" ,"달러" ,"엔" ,"유로" ,"파운드" ,"프랑" ,"달러" ,"파운드" ,"달러" ,"달러" ,"크로나" ,"크로네" ,"크로네" ,"리얄" ,"디나르" ,"디나르" ,"디르함" ,"달러" ,"동" ,"루피아" ,"랜드" ,"루블" ,"포린트" ,"즈워티" ,"리라" ,"텡게" ,"코루나" ,"리얄" ,"투그릭" ,"루피" ,"링깃" ,"루피" ,"타카" ,"페소" ,"위안" ,"파운드" ,"페소" ,"레알" ,"달러" ,"레알" ,"세켈" ,"디나르" ,"리알" ,"페소" ,"동"];
-	/* alert("환율수"+marr.length+"유닛명"+nat.length+"이름수:"+nnm.length); */
+
 	for(i=0; marr.length>i; i++){
 		if(nat[i]=="USD"){
 			$("#ecg_ifmt").append("<option value='"+marr[i]+"' data-unit='"+nat[i]+"' unit='"+unt[i]+"' selected='selected'>"+nnm[i]+"</option>");
@@ -79,13 +79,13 @@ function rl() {
 /* selected 이벤트 */
 function selc1(){
 		/* 국기,단위 변경 */
-	var otx = $(".nt_eng.l_unit").html();//국가코드
-	var ttx = $("#ecg_ifmt option:selected").attr("data-unit").toLowerCase();//선택된 소문자 국가코드(그림)
+	var otx = $(".nt_eng.l_unit").html();
+	var ttx = $("#ecg_ifmt option:selected").attr("data-unit").toLowerCase();
 	var unt = $("#ecg_ifmt option:selected").attr("unit");
 	if(otx.toLowerCase!=ttx){
-			$(".nt_eng.l_unit").html($("#ecg_ifmt option:selected").attr("data-unit"));//국가 변경
-			$(".flag.l").removeClass(otx.toLowerCase()); //국가그림에 국가코드 삭제
-			$(".flag.l").addClass(ttx); //국가그림에 국가코드 추가
+			$(".nt_eng.l_unit").html($("#ecg_ifmt option:selected").attr("data-unit"));
+			$(".flag.l").removeClass(otx.toLowerCase());
+			$(".flag.l").addClass(ttx); 
   	}
 		/* 환율 변경 */
     var tmps = $("#num2").val().replace(/,/g, '');
@@ -105,7 +105,7 @@ function selc2(){
 	var ttx = $("#ecg_ifmt2 option:selected").attr("data-unit").toLowerCase();
 	var unt = $("#ecg_ifmt2 option:selected").attr("unit");
 	if(otx.toLowerCase!=ttx){
-		$(".nt_eng.r_unit").html($("#ecg_ifmt2 option:selected").attr("data-unit"));//국가 변경
+		$(".nt_eng.r_unit").html($("#ecg_ifmt2 option:selected").attr("data-unit"));
 		$(".flag.r").removeClass(otx.toLowerCase());
 		$(".flag.r").addClass(ttx);
 	}
@@ -182,49 +182,49 @@ function selc2(){
 			</thead>
 			<tbody>
 	<tr class="dw">
-		<th scope="row">미국 <em>USD </em></th>
+		<th scope="row"><a>미국 <em>USD </em></a></th>
 		<td>1,110.90</td>
 		<td><span class="ico">하락</span>2.60</td>
 		<td>-0.23%</td>
 	</tr>
 
 	<tr class="dw">
-		<th scope="row">일본 <em>JPY 100</em></th>
+		<th scope="row"><a>일본 <em>JPY 100</em></a></th>
 		<td>941.20</td>
 		<td><span class="ico">하락</span>0.45</td>
 		<td>-0.05%</td>
 	</tr>
 
 	<tr class="up">
-		<th scope="row">유럽연합 <em>EUR </em></th>
+		<th scope="row"><a>유럽연합 <em>EUR </em></a></th>
 		<td>1,381.85</td>
 		<td><span class="ico">상승</span>3.89</td>
 		<td>0.28%</td>
 	</tr>
 
 	<tr class="dw">
-		<th scope="row">중국 <em>CNY </em></th>
+		<th scope="row"><a>중국 <em>CNY </em></a></th>
 		<td>180.66</td>
 		<td><span class="ico">하락</span>0.44</td>
 		<td>-0.24%</td>
 	</tr>
 
 	<tr class="dw">
-		<th scope="row">호주 <em>AUD </em></th>
+		<th scope="row"><a>호주 <em>AUD </em></a></th>
 		<td>950.60</td>
 		<td><span class="ico">하락</span>12.80</td>
 		<td>-1.33%</td>
 	</tr>
 
 	<tr class="dw">
-		<th scope="row">캐나다 <em>CAD </em></th>
+		<th scope="row"><a>캐나다 <em>CAD </em></a></th>
 		<td>983.88</td>
 		<td><span class="ico">하락</span>6.69</td>
 		<td>-0.68%</td>
 	</tr>
 
 	<tr class="dw">
-		<th scope="row">뉴질랜드 <em>NZD </em></th>
+		<th scope="row"><a>뉴질랜드 <em>NZD </em></a></th>
 		<td>867.06</td>
 		<td><span class="ico">하락</span>9.82</td>
 		<td>-1.12%</td>
@@ -233,66 +233,6 @@ function selc2(){
 		</table>
 	</div>
 		</div>
-			<p class="guide">위 정보는 투자 참고사항이며, 오류가 있을 수 있습니다.<br> 기준 : 11/25 17:55 065회차
-			<span class="src">제공 <a href="http://fx.keb.co.kr/FER1101C.web?schID=fex&amp;mID=FER1101C" onclick="return goOtherCR(this, 'a=drt_exc.keb&amp;r=&amp;i=0000009d_00001574927e&amp;u='+urlencode(this.href));"><img src="https://ssl.pstatic.net/sstatic/keypage/outside/economy/2013102814013391365.png" width="90" height="14" alt="KEB 외환은행"></a></span></p>
-	<form id="exchange_form" method="get" action="?">
-		<input type="hidden" name="sm" value="mtb_drt">
-		<input type="hidden" name="where" value="m">
-		<input type="hidden" id="query" name="query">
-	</form>
-	<dl class="other_excr">
-		<dt><label for="ecg_ifmt3">국가별 환율</label></dt>
-		<dd>
-			<select id="ecg_ifmt3" class="slc_box" onchange="onchanged_select(this);">
-				<option>국가선택</option>
-				<option value="1,110.90">미국 USD</option>
-				<option value="9.4120">일본 JPY</option>
-				<option value="1,381.85">유럽연합 EUR</option>
-				<option value="180.66">중국 CNY</option>
-				<option value="950.60">호주 AUD</option>
-				<option value="983.88">캐나다 CAD</option>
-				<option value="1,742.45">영국 GBP</option>
-				<option value="24.71">필리핀 PHP</option>
-				<option value="143.23">홍콩 HKD</option>
-				<option value="867.06">뉴질랜드 NZD</option>
-				<option value="33.84">태국 THB</option>
-				<option value="852.24">싱가포르 SGD</option>
-				<option value="17.94">인도 INR</option>
-				<option value="436.38">브라질 BRL</option>
-				<option value="35.93">대만 TWD</option>
-				<option value="331.36">말레이시아 MYR</option>
-				<option value="1,148.81">스위스 CHF</option>
-				<option value="0.0520">베트남 VND</option>
-				<option value="24.54">러시아 RUB</option>
-				<option value="0.0923">인도네시아 IDR</option>
-				<option value="14.37">방글라데시 BDT</option>
-				<option value="149.16">스웨덴 SEK</option>
-				<option value="163.26">노르웨이 NOK</option>
-				<option value="100.72">남아프리카 공화국 ZAR</option>
-				<option value="4.51">헝가리 HUF</option>
-				<option value="81.23">멕시코 MXN</option>
-				<option value="3,816.61">쿠웨이트 KWD</option>
-				<option value="185.74">덴마크 DKK</option>
-				<option value="155.37">이집트 EGP</option>
-				<option value="329.17">폴란드 PLN</option>
-				<option value="296.10">사우디아라비아 SAR</option>
-				<option value="287.87">이스라엘 ILS</option>
-				<option value="10.94">파키스탄 PKR</option>
-				<option value="2,946.53">바레인 BHD</option>
-				<option value="1,574.96">요르단 JOD</option>
-				<option value="852.05">브루나이 BND</option>
-				<option value="302.45">아랍에미리트 AED</option>
-				<option value="0.59">몽골 MNT</option>
-				<option value="6.13">카자흐스탄 KZT</option>
-				<option value="497.74">터키 TRY</option>
-				<option value="50.10">체코 CZK</option>
-				<option value="305.05">카타르 QAR</option>
-				<option value="1.86">칠레 CLP</option>
-				<option value="2,885.38">오만 OMR</option>
-			</select>
-		</dd>
-	</dl>
-			<p class="lk_more"><a href="http://m.stock.naver.com/world/worldExchange.nhn" onclick="return goOtherCR(this, 'a=drt_exc.more&amp;r=1&amp;i=0000009d_00001574927e&amp;u='+urlencode(this.href));">환율 더보기</a></p>
 	</div>
 </section>
 </body>
